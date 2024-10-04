@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
-
+import React from "react";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from "../pages/login/Login";
-import Landing from "../pages/landing/Landing";
 import ResourceList from "../pages/userList/UserList";
 import Layout from "../Layout/Layout";
 import User from "../pages/users/User";
@@ -18,39 +16,57 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<ResourceList />} />
-          <Route path="/users" element={<ResourceList />} />
-          <Route path="/user/:id" element={<User />} />
-          <Route path="/resource/films" element={<DynamicCardList type="film" />} />
-        <Route path="/resource/vehicles" element={<DynamicCardList type="vehicle" />} />
-        <Route path="/resource/starships" element={<DynamicCardList type="starship" />} />
-        <Route
-        path="/resource/films/:id"
-        element={
-          <ProtectedRoute
-            element={<Films />}
-            allowedRoles={['admin']} // Only admins can access
+          <Route 
+            path="/home" 
+            element={
+              <ProtectedRoute element={<ResourceList />} allowedRoles={['admin', 'user']} />
+            } 
           />
-        }
-      />
-      <Route
-        path="/resource/vehicles/:id"
-        element={
-          <ProtectedRoute
-            element={<Vehicles />}
-            allowedRoles={['admin', 'user']} // Both admins and users can access
+          <Route 
+            path="/users" 
+            element={
+              <ProtectedRoute element={<ResourceList />} allowedRoles={['admin', 'user']} />
+            } 
           />
-        }
-      />
-      <Route
-        path="/resource/starships/:id"
-        element={
-          <ProtectedRoute
-            element={<Starships />}
-            allowedRoles={['admin']} // Only admins can access
+          <Route 
+            path="/user/:id" 
+            element={
+              <ProtectedRoute element={<User />} allowedRoles={['admin', 'user']} />
+            } 
           />
-        }
-      />
+          <Route 
+            path="/resource/films" 
+            element={
+              <ProtectedRoute element={<DynamicCardList type="film" />} allowedRoles={['admin', 'user']} />
+            } 
+          />
+          <Route 
+            path="/resource/vehicles" 
+            element={
+              <ProtectedRoute element={<DynamicCardList type="vehicle" />} allowedRoles={['admin', 'user']} />
+            } 
+          />
+          <Route 
+            path="/resource/starships" 
+            element={
+              <ProtectedRoute element={<DynamicCardList type="starship" />} allowedRoles={['admin', 'user']} />
+            } 
+          />
+
+          {/* Restricted routes for admin only */}
+          <Route
+            path="/resource/films/:id"
+            element={<ProtectedRoute element={<Films />} allowedRoles={['admin']} />}
+          />
+          <Route
+            path="/resource/vehicles/:id"
+            element={<ProtectedRoute element={<Vehicles />} allowedRoles={['admin', 'user']} />}
+          />
+          <Route
+            path="/resource/starships/:id"
+            element={<ProtectedRoute element={<Starships />} allowedRoles={['admin']} />}
+          />
+
           <Route path="*" element={<div>Page not found</div>} />
         </Route>
       </Routes>
@@ -59,4 +75,3 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
-
