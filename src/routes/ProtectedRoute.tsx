@@ -1,8 +1,7 @@
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import AccessDenied from '../pages/access/AccessDenied';
-
 
 interface ProtectedRouteProps {
   element: React.ReactNode;
@@ -12,17 +11,13 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, allowedRoles, redirectPath = '/login' }) => {
   const { isAuthenticated, userRole } = useAuth();
- // const roles = ['admin', 'user']
+
   if (!isAuthenticated) {
     return <Navigate to={redirectPath} />;
   }
 
-  if (userRole && !allowedRoles.includes(userRole)) {
-    return <div><AccessDenied/></div>; // You can customize this to be a better styled Access Denied component.
-  }
-
   if (!userRole || !allowedRoles.includes(userRole)) {
-    return <Navigate to={redirectPath} />;
+    return <AccessDenied />;
   }
 
   return <>{element}</>;

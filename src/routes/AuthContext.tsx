@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Define user roles
 type UserRole = 'admin' | 'user' | null;
 
 interface AuthContextProps {
@@ -16,14 +15,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState<UserRole>(null);
 
+  useEffect(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated') === 'true';
+    const storedRole = localStorage.getItem('userRole') as UserRole;
+    if (storedAuth && storedRole) {
+      setIsAuthenticated(true);
+      setUserRole(storedRole);
+    }
+  }, []);
+
   const login = (role: UserRole) => {
     setIsAuthenticated(true);
     setUserRole(role);
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('userRole', role || '');
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setUserRole(null);
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
   };
 
   return (
