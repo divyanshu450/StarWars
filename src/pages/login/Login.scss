@@ -1,0 +1,88 @@
+// General layout
+.login-container {
+    display: flex;
+    height: 100vh; // Full height of the viewport
+  
+    .left-side,
+    .right-side {
+      width: 50%; // Each half takes 50% of the width
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden; // Ensure text doesn't overflow during animation
+      position: relative;
+    }
+  
+    .left-side {
+      background-color: rgb(147,112,219);
+      color: white; // Default text color for left side
+    }
+  
+    .right-side {
+      background-color: white;
+      color: rgb(147,112,219); // Default text color for right side
+    }
+  
+    // Brand text styling
+    .brand-text-left,
+    .brand-text-right {
+      font-size: 3rem;
+      font-weight: bold;
+      opacity: 0; // Initially hidden
+      transition: opacity 0.5s;  // **Added smooth opacity transition**
+    }
+  
+    // Animation classes
+    .animate-left .brand-text-left {
+      animation: slide-in-left 2s forwards;
+    }
+  
+    .animate-right .brand-text-right {
+      animation: slide-in-right 2s forwards;
+    }
+  }
+  
+  // Keyframes for sliding text
+  @keyframes slide-in-left {
+    from {
+      transform: translateX(-100%); // Start from outside the left side
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0); // End inside the left side
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%); // Start from outside the right side
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0); // End inside the right side
+      opacity: 1;
+    }
+  }
+  
+    .form-container {
+      position: absolute; // Position it in the middle
+      top: 50%; // Center vertically
+      left: 50%; // Center horizontally
+      transform: translate(-50%, -50%); // Offset for centering
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem; // Space between fields
+      width: 300px; // Set a width for the form
+  
+      .mantine-TextInput-root {
+        width: 100%; // Make inputs full width
+      }
+    }
+  }
+  
+  
+  
+  
